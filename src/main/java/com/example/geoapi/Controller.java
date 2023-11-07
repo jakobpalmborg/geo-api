@@ -13,6 +13,10 @@ public class Controller {
     public ResponseEntity<String> getAllCategories() {
         return new ResponseEntity<>("This is all categories", HttpStatus.OK);
     }
+    @GetMapping("/categories/{id}")
+    public ResponseEntity<String> getAllCategories(@PathVariable int id) {
+        return new ResponseEntity<>("This is one category", HttpStatus.OK);
+    }
 
     @PostMapping("/categories")
     public ResponseEntity<HttpStatus> createCategory() {
@@ -27,6 +31,8 @@ public class Controller {
     public ResponseEntity<String> getOnePlace(@PathVariable int id) {
         return new ResponseEntity<>("This is one specific place", HttpStatus.OK);
     }
+
+
 
 
 
