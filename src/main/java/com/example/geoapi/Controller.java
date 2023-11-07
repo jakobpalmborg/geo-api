@@ -14,7 +14,7 @@ public class Controller {
         return new ResponseEntity<>("This is all categories", HttpStatus.OK);
     }
     @GetMapping("/categories/{id}")
-    public ResponseEntity<String> getAllCategories(@PathVariable int id) {
+    public ResponseEntity<String> getOneCategory(@PathVariable int id) {
         return new ResponseEntity<>("This is one category", HttpStatus.OK);
     }
 
@@ -31,6 +31,12 @@ public class Controller {
     public ResponseEntity<String> getOnePlace(@PathVariable int id) {
         return new ResponseEntity<>("This is one specific place", HttpStatus.OK);
     }
+
+    @GetMapping("/categories/{id}/places")
+    public ResponseEntity<String> getAllPlacesInOneCategory(@PathVariable int id) {
+        return new ResponseEntity<>("This is all places in one category", HttpStatus.OK);
+    }
+
 
 
 
