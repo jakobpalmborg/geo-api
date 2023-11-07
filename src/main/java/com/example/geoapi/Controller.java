@@ -36,9 +36,16 @@ public class Controller {
     public ResponseEntity<String> getAllPlacesInOneCategory(@PathVariable int id) {
         return new ResponseEntity<>("This is all places in one category", HttpStatus.OK);
     }
+    @GetMapping("/users/{id}/places")
+    public ResponseEntity<String> getAllPlacesForOneUser(@PathVariable int id) {
+        return new ResponseEntity<>("This is all places for one user", HttpStatus.OK);
+    }
+    @GetMapping("/{coordinates}/places")
+    public ResponseEntity<String> getAllPlacesInSpecificArea(@PathVariable String coordinates, @RequestParam int radius) {
+        return new ResponseEntity<>("This is all places with a radius of: " + radius + " from this coordinates: " + coordinates, HttpStatus.OK);
+    }
 
-
-
+    
 
 
 
