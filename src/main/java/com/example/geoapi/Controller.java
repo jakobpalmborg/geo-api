@@ -1,7 +1,6 @@
 package com.example.geoapi;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,8 +44,23 @@ public class Controller {
         return new ResponseEntity<>("This is all places with a radius of: " + radius + " from this coordinates: " + coordinates, HttpStatus.OK);
     }
 
-    
+    @PostMapping("/places")
+    public ResponseEntity<HttpStatus> createPlace() {
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
+    @PutMapping("/places/{id}")
+    public ResponseEntity<String> replaceOnePlace(@PathVariable int id) {
+        return new ResponseEntity<>("The place with id: " + id + " has been replaced with a new place", HttpStatus.CREATED);
+    }
+    @PatchMapping("/places/{id}")
+    public ResponseEntity<String> updateOnePlace(@PathVariable int id) {
+        return new ResponseEntity<>("The place with id: " + id + " has been updated", HttpStatus.CREATED);
+    }
 
+    @DeleteMapping("/places/{id}")
+    public ResponseEntity<HttpStatus> deletePlace(@PathVariable int id) {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }
