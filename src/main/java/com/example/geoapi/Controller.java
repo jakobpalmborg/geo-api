@@ -3,10 +3,7 @@ package com.example.geoapi;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -21,5 +18,16 @@ public class Controller {
     public ResponseEntity<HttpStatus> createCategory() {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @GetMapping("/places")
+    public ResponseEntity<String> getAllPlaces() {
+        return new ResponseEntity<>("This is all places", HttpStatus.OK);
+    }
+    @GetMapping("/places/{id}")
+    public ResponseEntity<String> getOnePlace(@PathVariable int id) {
+        return new ResponseEntity<>("This is one specific place", HttpStatus.OK);
+    }
+
+
 
 }
