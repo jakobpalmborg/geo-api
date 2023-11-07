@@ -12,6 +12,7 @@ public class Controller {
     public ResponseEntity<String> getAllCategories() {
         return new ResponseEntity<>("This is all categories", HttpStatus.OK);
     }
+
     @GetMapping("/categories/{id}")
     public ResponseEntity<String> getOneCategory(@PathVariable int id) {
         return new ResponseEntity<>("This is one category", HttpStatus.OK);
@@ -26,6 +27,7 @@ public class Controller {
     public ResponseEntity<String> getAllPlaces() {
         return new ResponseEntity<>("This is all places", HttpStatus.OK);
     }
+
     @GetMapping("/places/{id}")
     public ResponseEntity<String> getOnePlace(@PathVariable int id) {
         return new ResponseEntity<>("This is one specific place", HttpStatus.OK);
@@ -35,12 +37,14 @@ public class Controller {
     public ResponseEntity<String> getAllPlacesInOneCategory(@PathVariable int id) {
         return new ResponseEntity<>("This is all places in one category", HttpStatus.OK);
     }
+
     @GetMapping("/users/{id}/places")
     public ResponseEntity<String> getAllPlacesForOneUser(@PathVariable int id) {
         return new ResponseEntity<>("This is all places for one user", HttpStatus.OK);
     }
-    @GetMapping("/{coordinates}/places")
-    public ResponseEntity<String> getAllPlacesInSpecificArea(@PathVariable String coordinates, @RequestParam int radius) {
+
+    @GetMapping("/places/area")
+    public ResponseEntity<String> getAllPlacesInSpecificArea(@RequestParam String coordinates, @RequestParam int radius) {
         return new ResponseEntity<>("This is all places with a radius of: " + radius + " from this coordinates: " + coordinates, HttpStatus.OK);
     }
 
@@ -53,6 +57,7 @@ public class Controller {
     public ResponseEntity<String> replaceOnePlace(@PathVariable int id) {
         return new ResponseEntity<>("The place with id: " + id + " has been replaced with a new place", HttpStatus.CREATED);
     }
+
     @PatchMapping("/places/{id}")
     public ResponseEntity<String> updateOnePlace(@PathVariable int id) {
         return new ResponseEntity<>("The place with id: " + id + " has been updated", HttpStatus.CREATED);
