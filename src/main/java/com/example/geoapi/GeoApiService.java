@@ -3,6 +3,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+
 @Service
 public class GeoApiService {
 
@@ -12,8 +14,10 @@ public class GeoApiService {
         this.repository = repository;
     }
 
-    List<Category> getAllCategoriesService() {
-        return repository.findAll();
+    List<CategoryDto> getAllCategoriesService() {
+        return repository.findAll().stream()
+                .map(CategoryDto::of)
+                .toList();
     }
 
 }

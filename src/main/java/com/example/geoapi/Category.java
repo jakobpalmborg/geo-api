@@ -1,13 +1,12 @@
 package com.example.geoapi;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
 @Entity
 public class Category {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
@@ -21,6 +20,10 @@ public class Category {
     @Size(max = 255)
     @Column(name = "description")
     private String description;
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getDescription() {
         return description;
