@@ -1,11 +1,19 @@
 package com.example.geoapi;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GeoApiService {
 
-    String getAllCategoriesService() {
-        return "This is all categories";
+    CategoryRepository repository;
+
+    public GeoApiService(CategoryRepository repository) {
+        this.repository = repository;
+    }
+
+    List<Category> getAllCategoriesService() {
+        return repository.findAll();
     }
 
 }

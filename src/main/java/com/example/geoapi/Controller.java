@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class Controller {
@@ -15,10 +17,9 @@ public class Controller {
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<String> getAllCategories() {
-        var all = service.getAllCategoriesService();
-        return new ResponseEntity<>(all, HttpStatus.OK);
-    }
+    public List<Category> getAllCategories() {
+        return service.getAllCategoriesService();
+        }
 
     @GetMapping("/categories/{id}")
     public ResponseEntity<String> getOneCategory(@PathVariable int id) {
