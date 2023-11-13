@@ -8,9 +8,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class Controller {
 
+    private final GeoApiService service;
+
+    public Controller(GeoApiService service) {
+        this.service = service;
+    }
+
     @GetMapping("/categories")
     public ResponseEntity<String> getAllCategories() {
-        return new ResponseEntity<>("This is all categories", HttpStatus.OK);
+        var all = service.getAllCategoriesService();
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @GetMapping("/categories/{id}")
