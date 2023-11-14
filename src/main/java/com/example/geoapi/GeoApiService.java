@@ -42,6 +42,8 @@ public class GeoApiService {
         return placeRepository.findAll().stream().filter(place -> place.getCategory().getId() == id).toList();
     }
 
+   List<Place> getAllPlacesForOneUserService(int id) { return placeRepository.findAll().stream().filter(place -> place.getCreatedBy().getId() == id).toList(); }
+
 
 
 }

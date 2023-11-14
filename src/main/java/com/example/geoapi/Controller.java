@@ -50,8 +50,9 @@ public class Controller {
     }
 
     @GetMapping("/users/{id}/places")
-    public ResponseEntity<String> getAllPlacesForOneUser(@PathVariable int id) {
-        return new ResponseEntity<>("This is all places for one user", HttpStatus.OK);
+    public ResponseEntity<List<Place>> getAllPlacesForOneUser(@PathVariable int id) {
+        var userPlaces = service.getAllPlacesForOneUserService(id);
+        return new ResponseEntity<>(userPlaces, HttpStatus.OK);
     }
 
     @GetMapping("/places/area")
