@@ -38,8 +38,9 @@ public class Controller {
     }
 
     @GetMapping("/places/{id}")
-    public ResponseEntity<String> getOnePlace(@PathVariable int id) {
-        return new ResponseEntity<>("This is one specific place", HttpStatus.OK);
+    public ResponseEntity<PlaceDto> getOnePlace(@PathVariable int id) {
+        var place = service.getOnePlaceService(id);
+        return place.map(placeDto -> ResponseEntity.ok().body(placeDto)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/categories/{id}/places")

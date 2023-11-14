@@ -33,6 +33,10 @@ public class GeoApiService {
                 .toList();
     }
 
+    Optional<PlaceDto> getOnePlaceService(int id) {
+        return placeRepository.findById(id).map(PlaceDto::of);
+    }
+
 
 
 }
