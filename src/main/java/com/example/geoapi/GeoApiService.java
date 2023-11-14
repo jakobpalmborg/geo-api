@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.stream;
+
 
 @Service
 public class GeoApiService {
@@ -39,11 +41,10 @@ public class GeoApiService {
     }
 
     List<PlaceDto> getAllPlacesInOneCategoryService(int id) {
-        return placeRepository.findAll().stream().filter(place -> place.getCategory().getId() == id).map(PlaceDto::of).toList();
+        return placeRepository.findPlaceByCategory_Id(id).stream().map(PlaceDto::of).toList();
     }
 
-   List<PlaceDto> getAllPlacesForOneUserService(int id) { return placeRepository.findAll().stream().filter(place -> place.getCreatedBy().getId() == id).map(PlaceDto::of).toList(); }
-
-
-
+   List<PlaceDto> getAllPlacesForOneUserService(int id) {
+        return placeRepository.findPlaceByCreatedBy_Id(id).stream().map(PlaceDto::of).toList();
+    }
 }
