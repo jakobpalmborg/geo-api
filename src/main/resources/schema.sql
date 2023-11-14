@@ -16,7 +16,7 @@ CREATE TABLE user (
     user_name varchar(255)
 );
 
-DROP TABLE place;
+
 
 CREATE TABLE place (
     id int PRIMARY KEY AUTO_INCREMENT,
@@ -25,7 +25,7 @@ CREATE TABLE place (
     FOREIGN KEY (category_id) REFERENCES category(id),
     created_by int,
     FOREIGN KEY (created_by) REFERENCES user(id),
-    private boolean DEFAULT false,
+    is_private boolean DEFAULT false,
     time_modified timestamp,
     description varchar(255),
     coordinates point,

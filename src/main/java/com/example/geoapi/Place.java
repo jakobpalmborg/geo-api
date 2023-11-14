@@ -27,8 +27,8 @@ public class Place {
     @JoinColumn(name = "created_by")
     private User createdBy;
 
-    @Column(name = "private")
-    private Boolean privateField;
+    @Column(name = "is_private")
+    private Boolean isPrivate;
 
     @Column(name = "time_modified")
     private Instant timeModified;
@@ -73,11 +73,11 @@ public class Place {
     }
 
     public Boolean getPrivateField() {
-        return privateField;
+        return isPrivate;
     }
 
     public void setPrivateField(Boolean privateField) {
-        this.privateField = privateField;
+        this.isPrivate = privateField;
     }
 
     public Instant getTimeModified() {

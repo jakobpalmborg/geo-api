@@ -3,7 +3,7 @@ package com.example.geoapi;
 
 import java.time.Instant;
 
-public record PlaceDto(int id, String name, Category category, User createdBy, Boolean privateField, Instant timeModified, String description, Instant timeCreated) {
+public record PlaceDto(int id, String name, Category category, User createdBy, Boolean isPrivate, Instant timeModified, String description, Instant timeCreated) {
     public static PlaceDto of(Place place) {
         return new PlaceDto(
                 place.getId(),
