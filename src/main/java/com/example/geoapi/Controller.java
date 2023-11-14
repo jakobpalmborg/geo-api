@@ -17,9 +17,9 @@ public class Controller {
     }
 
     @GetMapping("/categories")
-    public List<CategoryDto> getAllCategories() {
-        return service.getAllCategoriesService();
-        }
+    public ResponseEntity<List<CategoryDto>> getAllCategories() {
+        return new ResponseEntity<>(service.getAllCategoriesService(), HttpStatus.OK);
+    }
 
     @GetMapping("/categories/{id}")
     public ResponseEntity<CategoryDto> getOneCategory(@PathVariable int id) {
@@ -33,8 +33,8 @@ public class Controller {
     }
 
     @GetMapping("/places")
-    public ResponseEntity<String> getAllPlaces() {
-        return new ResponseEntity<>("This is all places", HttpStatus.OK);
+    public ResponseEntity<List<PlaceDto>> getAllPlaces() {
+        return new ResponseEntity<>(service.getAllPlacesService(), HttpStatus.OK);
     }
 
     @GetMapping("/places/{id}")

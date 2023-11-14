@@ -19,11 +19,11 @@ public class Place {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "created_by")
     private User createdBy;
 
@@ -56,7 +56,7 @@ public class Place {
         this.name = name;
     }
 
-    public Category getCategory() {
+   public Category getCategory() {
         return category;
     }
 

@@ -8,21 +8,31 @@ import java.util.Optional;
 @Service
 public class GeoApiService {
 
-    CategoryRepository repository;
+    CategoryRepository categoryRepository;
+    PlaceRepository placeRepository;
 
-    public GeoApiService(CategoryRepository repository) {
-        this.repository = repository;
+
+    public GeoApiService(CategoryRepository categoryRepository, PlaceRepository placeRepository) {
+        this.categoryRepository = categoryRepository;
+        this.placeRepository = placeRepository;
     }
 
     List<CategoryDto> getAllCategoriesService() {
-        return repository.findAll().stream()
+        return categoryRepository.findAll().stream()
                 .map(CategoryDto::of)
                 .toList();
     }
 
     Optional<CategoryDto> getOneCategoryService(int id) {
-        return repository.findById(id).map(CategoryDto::of);
+        return categoryRepository.findById(id).map(CategoryDto::of);
     }
 
- 
+    List<PlaceDto> getAllPlacesService() {
+        return placeRepository.findAll().stream()
+                .map(PlaceDto::of)
+                .toList();
+    }
+
+
+
 }
