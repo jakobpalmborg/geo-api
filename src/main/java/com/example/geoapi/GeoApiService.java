@@ -38,11 +38,11 @@ public class GeoApiService {
         return placeRepository.findById(id).map(PlaceDto::of);
     }
 
-    List<Place> getAllPlacesInOneCategoryService(int id) {
-        return placeRepository.findAll().stream().filter(place -> place.getCategory().getId() == id).toList();
+    List<PlaceDto> getAllPlacesInOneCategoryService(int id) {
+        return placeRepository.findAll().stream().filter(place -> place.getCategory().getId() == id).map(PlaceDto::of).toList();
     }
 
-   List<Place> getAllPlacesForOneUserService(int id) { return placeRepository.findAll().stream().filter(place -> place.getCreatedBy().getId() == id).toList(); }
+   List<PlaceDto> getAllPlacesForOneUserService(int id) { return placeRepository.findAll().stream().filter(place -> place.getCreatedBy().getId() == id).map(PlaceDto::of).toList(); }
 
 
 

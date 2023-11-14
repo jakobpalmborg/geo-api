@@ -44,13 +44,13 @@ public class Controller {
     }
 
     @GetMapping("/categories/{id}/places")
-    public ResponseEntity<List<Place>> getAllPlacesInOneCategory(@PathVariable int id) {
+    public ResponseEntity<List<PlaceDto>> getAllPlacesInOneCategory(@PathVariable int id) {
         var places = service.getAllPlacesInOneCategoryService(id);
         return new ResponseEntity<>(places, HttpStatus.OK);
     }
 
     @GetMapping("/users/{id}/places")
-    public ResponseEntity<List<Place>> getAllPlacesForOneUser(@PathVariable int id) {
+    public ResponseEntity<List<PlaceDto>> getAllPlacesForOneUser(@PathVariable int id) {
         var userPlaces = service.getAllPlacesForOneUserService(id);
         return new ResponseEntity<>(userPlaces, HttpStatus.OK);
     }
