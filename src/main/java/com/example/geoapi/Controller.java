@@ -44,8 +44,9 @@ public class Controller {
     }
 
     @GetMapping("/categories/{id}/places")
-    public ResponseEntity<String> getAllPlacesInOneCategory(@PathVariable int id) {
-        return new ResponseEntity<>("This is all places in one category", HttpStatus.OK);
+    public ResponseEntity<List<Place>> getAllPlacesInOneCategory(@PathVariable int id) {
+        var places = service.getAllPlacesInOneCategoryService(id);
+        return new ResponseEntity<>(places, HttpStatus.OK);
     }
 
     @GetMapping("/users/{id}/places")

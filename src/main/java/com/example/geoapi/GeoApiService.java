@@ -3,6 +3,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -35,6 +36,10 @@ public class GeoApiService {
 
     Optional<PlaceDto> getOnePlaceService(int id) {
         return placeRepository.findById(id).map(PlaceDto::of);
+    }
+
+    List<Place> getAllPlacesInOneCategoryService(int id) {
+        return placeRepository.findAll().stream().filter(place -> place.getCategory().getId() == id).toList();
     }
 
 
