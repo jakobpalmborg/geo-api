@@ -22,8 +22,9 @@ public class Controller {
         }
 
     @GetMapping("/categories/{id}")
-    public ResponseEntity<String> getOneCategory(@PathVariable int id) {
-        return new ResponseEntity<>("This is one category", HttpStatus.OK);
+    public ResponseEntity<CategoryDto> getOneCategory(@PathVariable int id) {
+        var category = service.getOneCategoryService(id);
+        return category.map(categoryDto -> ResponseEntity.ok().body(categoryDto)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/categories")
