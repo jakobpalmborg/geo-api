@@ -1,4 +1,5 @@
 package com.example.geoapi;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,15 @@ public class GeoApiService {
         return categoryRepository.findById(id).map(CategoryDto::of);
     }
 
+    HttpStatus createCategoryService(CategoryRequestBody category) {
+        Category categoryEntity = new Category();
+        categoryEntity.setName(category.name());
+        categoryEntity.setSymbol(category.symbol());
+        categoryEntity.setDescription(category.description());
+        categoryRepository.save(categoryEntity);
+        return HttpStatus.CREATED;
+    }
+
     List<PlaceDto> getAllPlacesService() {
         return placeRepository.findAll().stream()
                 .map(PlaceDto::of)
@@ -47,4 +57,6 @@ public class GeoApiService {
    List<PlaceDto> getAllPlacesForOneUserService(int id) {
         return placeRepository.findPlaceByCreatedBy_Id(id).stream().map(PlaceDto::of).toList();
     }
+
+
 }

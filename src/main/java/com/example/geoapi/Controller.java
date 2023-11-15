@@ -24,12 +24,17 @@ public class Controller {
     @GetMapping("/categories/{id}")
     public ResponseEntity<CategoryDto> getOneCategory(@PathVariable int id) {
         var category = service.getOneCategoryService(id);
-        return category.map(categoryDto -> ResponseEntity.ok().body(categoryDto)).orElseGet(() -> ResponseEntity.notFound().build());
+        return category
+                .map(categoryDto -> ResponseEntity
+                        .ok().body(categoryDto))
+                .orElseGet(() -> ResponseEntity
+                        .notFound()
+                        .build());
     }
 
     @PostMapping("/categories")
-    public ResponseEntity<HttpStatus> createCategory() {
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<HttpStatus> createCategory(@RequestBody CategoryRequestBody category) {
+        return new ResponseEntity<>(service.createCategoryService(category));
     }
 
     @GetMapping("/places")
