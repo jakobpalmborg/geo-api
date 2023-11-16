@@ -28,7 +28,7 @@ CREATE TABLE place (
     is_private boolean DEFAULT false,
     time_modified timestamp,
     description varchar(255),
-    coordinates point,
+    coordinates geometry not null srid 4326,
     time_created timestamp
 );
 
