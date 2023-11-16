@@ -10,4 +10,5 @@ public interface PlaceRepository extends ListCrudRepository<Place, Integer> {
     List<Place> findPlaceByCreatedBy_Id(int id);
 
 
+
 }

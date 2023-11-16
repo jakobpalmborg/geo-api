@@ -66,8 +66,9 @@ public class Controller {
     }
 
     @PostMapping("/places")
-    public ResponseEntity<HttpStatus> createPlace() {
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<HttpStatus> createPlace(@RequestBody PlaceRequestBody place) {
+
+        return new ResponseEntity<>(service.createPlaceService(place));
     }
 
     @PutMapping("/places/{id}")

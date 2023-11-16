@@ -3,6 +3,8 @@ package com.example.geoapi;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Point;
 
 import java.time.Instant;
 
@@ -33,6 +35,9 @@ public class Place {
     @Column(name = "time_modified")
     private Instant timeModified;
 
+    @Column(name = "coordinates")
+    public Point<G2D> coordinates;
+
     @Size(max = 255)
     @Column(name = "description")
     private String description;
@@ -44,9 +49,7 @@ public class Place {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+
 
     public String getName() {
         return name;
@@ -56,7 +59,7 @@ public class Place {
         this.name = name;
     }
 
-   public Category getCategory() {
+    public Category getCategory() {
         return category;
     }
 
@@ -72,12 +75,12 @@ public class Place {
         this.createdBy = createdBy;
     }
 
-    public Boolean getPrivateField() {
+    public Boolean getIsPrivate() {
         return isPrivate;
     }
 
-    public void setPrivateField(Boolean privateField) {
-        this.isPrivate = privateField;
+    public void setIsPrivate(Boolean isPrivate) {
+        this.isPrivate = isPrivate;
     }
 
     public Instant getTimeModified() {
@@ -86,6 +89,14 @@ public class Place {
 
     public void setTimeModified(Instant timeModified) {
         this.timeModified = timeModified;
+    }
+
+    public Point<G2D> getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Point<G2D> coordinates) {
+        this.coordinates = coordinates;
     }
 
     public String getDescription() {
