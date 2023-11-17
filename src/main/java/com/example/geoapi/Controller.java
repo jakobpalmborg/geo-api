@@ -38,8 +38,12 @@ public class Controller {
     }
 
     @GetMapping("/places")
-    public ResponseEntity<List<PlaceDto>> getAllPlaces() {
-        return new ResponseEntity<>(service.getAllPlacesService(), HttpStatus.OK);
+    public ResponseEntity<List<PlaceDto>> getAllPlaces(@RequestParam(required = false,
+            defaultValue = "0") double lat,@RequestParam(required = false,
+            defaultValue = "0") double lng,  @RequestParam(required = false,
+            defaultValue = "0") double distance) {
+        var places = service.getAllPlacesService(lat, lng, distance);
+        return new ResponseEntity<>(places, HttpStatus.OK);
     }
 
     @GetMapping("/places/{id}")
@@ -58,12 +62,6 @@ public class Controller {
     public ResponseEntity<List<PlaceDto>> getAllPlacesForOneUser(@PathVariable int id) {
         var userPlaces = service.getAllPlacesForOneUserService(id);
         return new ResponseEntity<>(userPlaces, HttpStatus.OK);
-    }
-
-    @GetMapping("/places/area")
-    public ResponseEntity<List<PlaceDto>> getAllPlacesInSpecificArea(@RequestParam double lat,@RequestParam double lng,  @RequestParam double distance) {
-        var places = service.getAllPlacesInSpecificAreaService(lat, lng, distance);
-        return new ResponseEntity<>(places, HttpStatus.OK);
     }
 
     @PostMapping("/places")

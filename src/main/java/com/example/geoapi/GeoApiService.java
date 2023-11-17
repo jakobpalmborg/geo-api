@@ -48,10 +48,15 @@ public class GeoApiService {
         return HttpStatus.CREATED;
     }
 
-    List<PlaceDto> getAllPlacesService() {
-        return placeRepository.findAll().stream()
-                .map(PlaceDto::of)
-                .toList();
+    List<PlaceDto> getAllPlacesService(double lat, double lng, double distance) {
+        if (distance == 0) {
+            return placeRepository.findAll().stream()
+                    .map(PlaceDto::of)
+                    .toList();
+        } else {
+            Point<G2D> location = DSL.point(WGS84, g(lng, lat));
+            return placeRepository.filterOnDistance(location, distance).stream().map(PlaceDto::of).toList();
+        }
     }
 
     Optional<PlaceDto> getOnePlaceService(int id) {
@@ -64,11 +69,6 @@ public class GeoApiService {
 
     List<PlaceDto> getAllPlacesForOneUserService(int id) {
         return placeRepository.findPlaceByCreatedBy_Id(id).stream().map(PlaceDto::of).toList();
-    }
-
-    List<PlaceDto> getAllPlacesInSpecificAreaService(double lat, double lng, double distance) {
-        Point<G2D> location = DSL.point(WGS84, g(lng, lat));
-        return placeRepository.filterOnDistance(location, distance).stream().map(PlaceDto::of).toList();
     }
 
     HttpStatus createPlaceService(PlaceRequestBody place) {
