@@ -83,7 +83,8 @@ public class Controller {
 
     @DeleteMapping("/places/{id}")
     public ResponseEntity<HttpStatus> deletePlace(@PathVariable int id) {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        var status = service.deletePlaceService(id);
+        return new ResponseEntity<>(status);
     }
 
 }

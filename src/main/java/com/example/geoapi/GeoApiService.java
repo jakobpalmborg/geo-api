@@ -125,4 +125,14 @@ public class GeoApiService {
             return "No place with id: " + id + " in database";
         }
     }
+
+    HttpStatus deletePlaceService(int id) {
+        Place placeEntity = placeRepository.findPlaceById(id);
+        if (placeEntity != null) {
+            placeRepository.delete(placeEntity);
+            return HttpStatus.NO_CONTENT;
+        } else {
+            return HttpStatus.NOT_FOUND;
+        }
+    }
 }
