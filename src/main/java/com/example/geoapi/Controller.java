@@ -61,13 +61,13 @@ public class Controller {
     }
 
     @GetMapping("/places/area")
-    public ResponseEntity<String> getAllPlacesInSpecificArea(@RequestParam String coordinates, @RequestParam int radius) {
-        return new ResponseEntity<>("This is all places with a radius of: " + radius + " from this coordinates: " + coordinates, HttpStatus.OK);
+    public ResponseEntity<List<PlaceDto>> getAllPlacesInSpecificArea(@RequestParam double lat,@RequestParam double lng,  @RequestParam double distance) {
+        var places = service.getAllPlacesInSpecificAreaService(lat, lng, distance);
+        return new ResponseEntity<>(places, HttpStatus.OK);
     }
 
     @PostMapping("/places")
     public ResponseEntity<HttpStatus> createPlace(@RequestBody PlaceRequestBody place) {
-
         return new ResponseEntity<>(service.createPlaceService(place));
     }
 

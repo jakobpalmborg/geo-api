@@ -1,6 +1,7 @@
 package com.example.geoapi;
 import org.geolatte.geom.G2D;
 import org.geolatte.geom.Point;
+import org.geolatte.geom.builder.DSL;
 import org.geolatte.geom.codec.Wkt;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+
+import static org.geolatte.geom.builder.DSL.g;
 import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 
 
@@ -60,6 +63,11 @@ public class GeoApiService {
 
    List<PlaceDto> getAllPlacesForOneUserService(int id) {
         return placeRepository.findPlaceByCreatedBy_Id(id).stream().map(PlaceDto::of).toList();
+    }
+
+    List<PlaceDto> getAllPlacesInSpecificAreaService(double lat, double lng, double distance) {
+        Point<G2D> location = DSL.point(WGS84, g(lng, lat));
+        return placeRepository.filterOnDistance(location, distance).stream().map(PlaceDto::of).toList();
     }
 
     HttpStatus createPlaceService(PlaceRequestBody place) {
