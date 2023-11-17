@@ -78,7 +78,7 @@ public class GeoApiService {
         placeEntity.setCategory(category);
         User user = userRepository.findUserById(place.createdBy());
         placeEntity.setCreatedBy(user);
-        placeEntity.setIsPrivate(false);
+        placeEntity.setIsPrivate(place.isPrivate());
         placeEntity.setTimeModified(Instant.now());
         placeEntity.setDescription(place.description());
         String text = "POINT (" + place.lon() + " " + place.lat() + ")";
@@ -98,7 +98,7 @@ public class GeoApiService {
             placeEntity.setCategory(category);
             User user = userRepository.findUserById(place.createdBy());
             placeEntity.setCreatedBy(user);
-            placeEntity.setIsPrivate(false);
+            placeEntity.setIsPrivate(place.isPrivate());
             placeEntity.setTimeModified(Instant.now());
             placeEntity.setDescription(place.description());
             String text = "POINT (" + place.lon() + " " + place.lat() + ")";
@@ -112,4 +112,17 @@ public class GeoApiService {
         }
     }
 
+    String updateOnePlaceService(int id, PlaceRequestBody place) {
+        Place placeEntity = placeRepository.findPlaceById(id);
+        if (placeEntity != null) {
+            placeEntity.setName(place.name());
+            placeEntity.setIsPrivate(place.isPrivate());
+            placeEntity.setTimeModified(Instant.now());
+            placeEntity.setDescription(place.description());
+            placeRepository.save(placeEntity);
+            return "The place with id: " + id + " has been updated";
+        } else {
+            return "No place with id: " + id + " in database";
+        }
+    }
 }

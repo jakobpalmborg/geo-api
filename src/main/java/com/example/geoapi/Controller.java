@@ -77,8 +77,8 @@ public class Controller {
     }
 
     @PatchMapping("/places/{id}")
-    public ResponseEntity<String> updateOnePlace(@PathVariable int id) {
-        return new ResponseEntity<>("The place with id: " + id + " has been updated", HttpStatus.CREATED);
+    public ResponseEntity<String> updateOnePlace(@PathVariable int id,  @RequestBody PlaceRequestBody place) {
+        return new ResponseEntity<>(service.updateOnePlaceService(id, place), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/places/{id}")
