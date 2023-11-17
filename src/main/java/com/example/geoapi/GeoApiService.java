@@ -1,4 +1,5 @@
 package com.example.geoapi;
+
 import org.geolatte.geom.G2D;
 import org.geolatte.geom.Point;
 import org.geolatte.geom.builder.DSL;
@@ -61,7 +62,7 @@ public class GeoApiService {
         return placeRepository.findPlaceByCategory_Id(id).stream().map(PlaceDto::of).toList();
     }
 
-   List<PlaceDto> getAllPlacesForOneUserService(int id) {
+    List<PlaceDto> getAllPlacesForOneUserService(int id) {
         return placeRepository.findPlaceByCreatedBy_Id(id).stream().map(PlaceDto::of).toList();
     }
 

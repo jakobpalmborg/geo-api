@@ -1,14 +1,14 @@
 package com.example.geoapi;
 
 import org.geolatte.geom.G2D;
-import org.geolatte.geom.Geometry;
+
 import org.geolatte.geom.Point;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
+
 
 public interface PlaceRepository extends ListCrudRepository<Place, Integer> {
 
