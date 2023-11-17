@@ -90,5 +90,26 @@ public class GeoApiService {
         return HttpStatus.CREATED;
     }
 
+    String replaceOnePlaceService(int id, PlaceRequestBody place) {
+        Place placeEntity = placeRepository.findPlaceById(id);
+        if (placeEntity != null) {
+            placeEntity.setName(place.name());
+            Category category = categoryRepository.findCategoriesById(place.category());
+            placeEntity.setCategory(category);
+            User user = userRepository.findUserById(place.createdBy());
+            placeEntity.setCreatedBy(user);
+            placeEntity.setIsPrivate(false);
+            placeEntity.setTimeModified(Instant.now());
+            placeEntity.setDescription(place.description());
+            String text = "POINT (" + place.lon() + " " + place.lat() + ")";
+            Point<G2D> geo = (Point<G2D>) Wkt.fromWkt(text, WGS84);
+            placeEntity.setCoordinates(geo);
+            placeEntity.setTimeCreated(Instant.now());
+            placeRepository.save(placeEntity);
+            return "The place with id: " + id + " has been replaced with a new place";
+        } else {
+            return "No place with id: " + id + " in database";
+        }
+    }
 
 }

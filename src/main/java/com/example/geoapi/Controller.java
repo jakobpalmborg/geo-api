@@ -72,8 +72,8 @@ public class Controller {
     }
 
     @PutMapping("/places/{id}")
-    public ResponseEntity<String> replaceOnePlace(@PathVariable int id) {
-        return new ResponseEntity<>("The place with id: " + id + " has been replaced with a new place", HttpStatus.CREATED);
+    public ResponseEntity<String> replaceOnePlace(@PathVariable int id, @RequestBody PlaceRequestBody place) {
+        return new ResponseEntity<>(service.replaceOnePlaceService(id, place), HttpStatus.CREATED);
     }
 
     @PatchMapping("/places/{id}")

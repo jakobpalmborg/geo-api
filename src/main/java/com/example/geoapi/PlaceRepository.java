@@ -8,11 +8,13 @@ import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlaceRepository extends ListCrudRepository<Place, Integer> {
 
     List<Place> findPlaceByCategory_Id(int id);
     List<Place> findPlaceByCreatedBy_Id(int id);
+    Place findPlaceById(int id);
 
     @Query(value = """
             SELECT * FROM place
