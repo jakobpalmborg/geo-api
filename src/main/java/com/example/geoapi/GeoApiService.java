@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static java.util.Arrays.stream;
 import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 
 
@@ -20,7 +17,6 @@ public class GeoApiService {
     CategoryRepository categoryRepository;
     PlaceRepository placeRepository;
     private final UserRepository userRepository;
-
 
     public GeoApiService(CategoryRepository categoryRepository, PlaceRepository placeRepository,
                          UserRepository userRepository) {
@@ -77,7 +73,7 @@ public class GeoApiService {
         placeEntity.setIsPrivate(false);
         placeEntity.setTimeModified(Instant.now());
         placeEntity.setDescription(place.description());
-        String text = "POINT (" + place.coordinates() + ")";
+        String text = "POINT (" + place.lon() + " " + place.lat() + ")";
         Point<G2D> geo = (Point<G2D>) Wkt.fromWkt(text, WGS84);
         placeEntity.setCoordinates(geo);
         placeEntity.setTimeCreated(Instant.now());

@@ -26,4 +26,4 @@ VALUES ('Åre Bikep ark', 3, 2, true, timestamp(now()), 'This is Åre Bike park'
 INSERT INTO place(name, category_id, created_by, is_private, time_modified, description, coordinates, time_created)
 VALUES ('Järvsö bergcykelpark', 3, 1, false, timestamp(now()), 'This is Järvsö Bergcykelpark',ST_GeomFromText('POINT(61.7122199640948 16.159677985715447)', 4326)  , timestamp(now()));
 INSERT INTO place(name, category_id, created_by, is_private, time_modified, description, coordinates, time_created)
-VALUES ('Vallåsen bike park', 3, 3, false, timestamp(now()), 'This is Järvsö Bergcykelpark', ST_GeomFromText('POINT(56.38502778384934 13.109019625670276)', 4326) , timestamp(now()));
+VALUES ('Vallåsen bike park', 3, 3, false, timestamp(now()), 'This is Vallåsen Bergcykelpark', ST_GeomFromText('POINT(56.38502778384934 13.109019625670276)', 4326) , timestamp(now()));
