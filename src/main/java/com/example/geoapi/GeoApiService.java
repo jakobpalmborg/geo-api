@@ -64,6 +64,9 @@ public class GeoApiService {
     }
 
     List<PlaceDto> getAllPlacesInOneCategoryService(int id) {
+
+        //rewrite with new query in repository
+        //return placeRepository.findPlacesForOneUser().stream().map(PlaceDto::of).toList();
         return placeRepository.findPlaceByCategory_Id(id).stream().map(PlaceDto::of).toList();
     }
 
