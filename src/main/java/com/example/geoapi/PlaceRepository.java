@@ -22,9 +22,8 @@ public interface PlaceRepository extends ListCrudRepository<Place, Integer> {
                 """, nativeQuery = true)
     List<Place> filterOnDistance(@Param("location") Point<G2D> location, @Param("distance") double distance);
 
-    // for finding all places for one logged in user
-    /*@Query("select p from Place p where p.createdBy = ?#{ principal?.username}")
-    List<Place> findPlacesForOneUser();*/
+       @Query("select p from Place p where p.createdBy.userName = ?#{ principal?.username}")
+    List<Place> findPlacesForOneUser();
 
 
 }

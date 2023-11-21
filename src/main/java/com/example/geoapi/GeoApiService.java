@@ -68,15 +68,12 @@ public class GeoApiService {
     }
 
     List<PlaceDto> getAllPlacesInOneCategoryService(int id) {
-
-        //rewrite with new query in repository
-        //return placeRepository.findPlacesForOneUser().stream().map(PlaceDto::of).toList();
         return placeRepository.findPlaceByCategory_Id(id).stream().map(PlaceDto::of).toList();
     }
 
-    List<PlaceDto> getAllPlacesForOneUserService(int id) {
-        return placeRepository.findPlaceByCreatedBy_Id(id).stream().map(PlaceDto::of).toList();
-    }
+    List<PlaceDto> getAllPlacesForOneUserService() {
+        return placeRepository.findPlacesForOneUser().stream().map(PlaceDto::of).toList();
+       }
 
     HttpStatus createPlaceService(PlaceRequestBody place) {
         System.out.println(place.name());

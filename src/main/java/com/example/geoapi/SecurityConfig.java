@@ -36,7 +36,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "api/places").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/places/*").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/categories/*/places").permitAll()
-                        .requestMatchers(HttpMethod.GET, "api/users/*/places").authenticated()
+                        .requestMatchers(HttpMethod.GET, "api/users/places").authenticated()
                         .requestMatchers(HttpMethod.POST, "api/places").authenticated()
                         .requestMatchers(HttpMethod.PUT, "api/places").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "api/places").authenticated()
@@ -49,7 +49,7 @@ public class SecurityConfig {
     @Description("In memory Userdetails service registered")
     public UserDetailsService users(PasswordEncoder encoder) {
         UserDetails user = User.builder()
-                .username("user")
+                .username("Linda")
                 .password(encoder.encode("password"))
                 .roles("USER")
                 .build();
