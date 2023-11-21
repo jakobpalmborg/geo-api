@@ -40,12 +40,16 @@ public class GeoApiService {
     }
 
     HttpStatus createCategoryService(CategoryRequestBody category) {
-        Category categoryEntity = new Category();
-        categoryEntity.setName(category.name());
-        categoryEntity.setSymbol(category.symbol());
-        categoryEntity.setDescription(category.description());
-        categoryRepository.save(categoryEntity);
-        return HttpStatus.CREATED;
+        if(categoryRepository.findCategoriesByName(category.name()).isPresent()) {
+            return HttpStatus.CONFLICT;
+        } else {
+            Category categoryEntity = new Category();
+            categoryEntity.setName(category.name());
+            categoryEntity.setSymbol(category.symbol());
+            categoryEntity.setDescription(category.description());
+            categoryRepository.save(categoryEntity);
+            return HttpStatus.CREATED;
+        }
     }
 
     List<PlaceDto> getAllPlacesService(double lat, double lng, double distance) {
