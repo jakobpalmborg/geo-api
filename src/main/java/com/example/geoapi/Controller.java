@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -65,8 +66,9 @@ public class Controller {
     }
 
     @PostMapping("/places")
-    public ResponseEntity<HttpStatus> createPlace(@RequestBody PlaceRequestBody place) {
-        return new ResponseEntity<>(service.createPlaceService(place));
+    public ResponseEntity<HttpStatus> createPlace(@RequestBody PlaceRequestBody place, Principal currentUser) {
+
+        return new ResponseEntity<>(service.createPlaceService(place, currentUser));
     }
 
     @PutMapping("/places/{id}")

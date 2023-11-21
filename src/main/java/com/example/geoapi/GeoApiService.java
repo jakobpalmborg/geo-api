@@ -7,6 +7,7 @@ import org.geolatte.geom.codec.Wkt;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -75,13 +76,13 @@ public class GeoApiService {
         return placeRepository.findPlacesForOneUser().stream().map(PlaceDto::of).toList();
        }
 
-    HttpStatus createPlaceService(PlaceRequestBody place) {
+    HttpStatus createPlaceService(PlaceRequestBody place, Principal currentUser) {
         System.out.println(place.name());
         Place placeEntity = new Place();
         placeEntity.setName(place.name());
         Category category = categoryRepository.findCategoriesById(place.category());
         placeEntity.setCategory(category);
-        User user = userRepository.findUserById(place.createdBy());
+        User user = userRepository.findUserByUserName(currentUser.getName());
         placeEntity.setCreatedBy(user);
         placeEntity.setIsPrivate(place.isPrivate());
         placeEntity.setTimeModified(Instant.now());
