@@ -38,9 +38,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "api/categories/*/places").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/users/places").authenticated()
                         .requestMatchers(HttpMethod.POST, "api/places").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "api/places").authenticated()
-                        .requestMatchers(HttpMethod.PATCH, "api/places").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "api/places").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "api/places/*").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "api/places/*").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "api/places/*").authenticated()
                         .anyRequest().denyAll())
                 .build();
     }

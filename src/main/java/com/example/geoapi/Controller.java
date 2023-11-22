@@ -72,19 +72,18 @@ public class Controller {
     }
 
     @PutMapping("/places/{id}")
-    public ResponseEntity<String> replaceOnePlace(@PathVariable int id, @RequestBody PlaceRequestBody place) {
-        return new ResponseEntity<>(service.replaceOnePlaceService(id, place), HttpStatus.CREATED);
+    public ResponseEntity<String> replaceOnePlace(@PathVariable int id, @RequestBody PlaceRequestBody place, Principal currentUser) {
+        return new ResponseEntity<>(service.replaceOnePlaceService(id, place, currentUser), HttpStatus.CREATED);
     }
 
     @PatchMapping("/places/{id}")
-    public ResponseEntity<String> updateOnePlace(@PathVariable int id,  @RequestBody PlaceRequestBody place) {
-        return new ResponseEntity<>(service.updateOnePlaceService(id, place), HttpStatus.CREATED);
+    public ResponseEntity<String> updateOnePlace(@PathVariable int id,  @RequestBody PlaceRequestBody place, Principal currentUser) {
+        return new ResponseEntity<>(service.updateOnePlaceService(id, place, currentUser), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/places/{id}")
-    public ResponseEntity<HttpStatus> deletePlace(@PathVariable int id) {
-        var status = service.deletePlaceService(id);
+    public ResponseEntity<HttpStatus> deletePlace(@PathVariable int id, Principal currentUser) {
+        var status = service.deletePlaceService(id, currentUser);
         return new ResponseEntity<>(status);
     }
-
 }
