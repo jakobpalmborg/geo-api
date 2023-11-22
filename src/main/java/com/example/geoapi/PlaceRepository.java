@@ -15,6 +15,7 @@ public interface PlaceRepository extends ListCrudRepository<Place, Integer> {
 
     List<Place> findPlaceByCategory_Id(int id);
     Optional<Place> findPlaceById(int id);
+    List<Place> findPlaceByIsPrivateFalse();
 
     @Query(value = """
             SELECT * FROM place

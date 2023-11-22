@@ -56,12 +56,15 @@ public class GeoApiService {
 
     List<PlaceDto> getAllPlacesService(double lat, double lng, double distance) {
         if (distance == 0) {
-            return placeRepository.findAll().stream()
+            return placeRepository.findPlaceByIsPrivateFalse().stream()
                     .map(PlaceDto::of)
                     .toList();
         } else {
             Point<G2D> location = DSL.point(WGS84, g(lng, lat));
-            return placeRepository.filterOnDistance(location, distance).stream().map(PlaceDto::of).toList();
+            return placeRepository.filterOnDistance(location, distance).stream()
+                    .filter(place -> !place.getIsPrivate())
+                    .map(PlaceDto::of)
+                    .toList();
         }
     }
 
