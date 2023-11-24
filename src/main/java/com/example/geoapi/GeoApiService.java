@@ -80,13 +80,13 @@ public class GeoApiService {
         return placeRepository.findPlacesForOneUser().stream().map(PlaceDto::of).toList();
     }
 
-    HttpStatus createPlaceService(PlaceRequestBody place, Principal currentUser) {
+    HttpStatus createPlaceService(PlaceRequestBody place, String currentUser) {
         System.out.println(place.name());
         Place placeEntity = new Place();
         placeEntity.setName(place.name());
         Category category = categoryRepository.findCategoriesById(place.category());
         placeEntity.setCategory(category);
-        User user = userRepository.findUserByUserName(currentUser.getName());
+        User user = userRepository.findUserByUserName(currentUser);
         placeEntity.setCreatedBy(user);
         placeEntity.setIsPrivate(place.isPrivate());
         placeEntity.setTimeModified(Instant.now());
@@ -100,8 +100,8 @@ public class GeoApiService {
         return HttpStatus.CREATED;
     }
 
-    String replaceOnePlaceService(int id, PlaceRequestBody place, Principal currentUser) {
-        User user = userRepository.findUserByUserName(currentUser.getName());
+    String replaceOnePlaceService(int id, PlaceRequestBody place, String currentUser) {
+        User user = userRepository.findUserByUserName(currentUser);
         Optional<Place> placeEntity = placeRepository.findPlaceById(id);
         return placeEntity.flatMap(place1 -> {
             if (Objects.equals(place1.getCreatedBy().getId(), user.getId())) {
@@ -124,8 +124,8 @@ public class GeoApiService {
         }).orElse("No place with id: " + id + " in database or you are not allowed to change this place");
     }
 
-    String updateOnePlaceService(int id, PlaceRequestBody place, Principal currentUser) {
-        User user = userRepository.findUserByUserName(currentUser.getName());
+    String updateOnePlaceService(int id, PlaceRequestBody place, String currentUser) {
+        User user = userRepository.findUserByUserName(currentUser);
         Optional<Place> placeEntity = placeRepository.findPlaceById(id);
         return placeEntity.flatMap(place1 -> {
             if (Objects.equals(place1.getCreatedBy().getId(), user.getId())) {
@@ -146,8 +146,8 @@ public class GeoApiService {
         }).orElse("No place with id: " + id + " in database or you are not allowed to change this place");
     }
 
-    HttpStatus deletePlaceService(int id, Principal currentUser) {
-        User user = userRepository.findUserByUserName(currentUser.getName());
+    HttpStatus deletePlaceService(int id, String currentUser) {
+        User user = userRepository.findUserByUserName(currentUser);
         Optional<Place> placeEntity = placeRepository.findPlaceById(id);
         return placeEntity.flatMap(place1 -> {
             if (Objects.equals(place1.getCreatedBy().getId(), user.getId())) {
