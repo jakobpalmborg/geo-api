@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -58,31 +59,34 @@ public class Controller {
         return new ResponseEntity<>(places, HttpStatus.OK);
     }
 
-    @GetMapping("/users/{id}/places")
-    public ResponseEntity<List<PlaceDto>> getAllPlacesForOneUser(@PathVariable int id) {
-        var userPlaces = service.getAllPlacesForOneUserService(id);
+    @GetMapping("/users/places")
+    public ResponseEntity<List<PlaceDto>> getAllPlacesForOneUser() {
+        var userPlaces = service.getAllPlacesForOneUserService();
         return new ResponseEntity<>(userPlaces, HttpStatus.OK);
     }
 
     @PostMapping("/places")
-    public ResponseEntity<HttpStatus> createPlace(@RequestBody PlaceRequestBody place) {
-        return new ResponseEntity<>(service.createPlaceService(place));
+    public ResponseEntity<HttpStatus> createPlace(@RequestBody PlaceRequestBody place, Principal principal) {
+        var currentUser = principal.getName();
+        return new ResponseEntity<>(service.createPlaceService(place, currentUser));
     }
 
     @PutMapping("/places/{id}")
-    public ResponseEntity<String> replaceOnePlace(@PathVariable int id, @RequestBody PlaceRequestBody place) {
-        return new ResponseEntity<>(service.replaceOnePlaceService(id, place), HttpStatus.CREATED);
+    public ResponseEntity<String> replaceOnePlace(@PathVariable int id, @RequestBody PlaceRequestBody place, Principal principal) {
+        var currentUser = principal.getName();
+        return new ResponseEntity<>(service.replaceOnePlaceService(id, place, currentUser), HttpStatus.CREATED);
     }
 
     @PatchMapping("/places/{id}")
-    public ResponseEntity<String> updateOnePlace(@PathVariable int id,  @RequestBody PlaceRequestBody place) {
-        return new ResponseEntity<>(service.updateOnePlaceService(id, place), HttpStatus.CREATED);
+    public ResponseEntity<String> updateOnePlace(@PathVariable int id,  @RequestBody PlaceRequestBody place, Principal principal) {
+        var currentUser = principal.getName();
+        return new ResponseEntity<>(service.updateOnePlaceService(id, place, currentUser), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/places/{id}")
-    public ResponseEntity<HttpStatus> deletePlace(@PathVariable int id) {
-        var status = service.deletePlaceService(id);
+    public ResponseEntity<HttpStatus> deletePlace(@PathVariable int id, Principal principal) {
+        var currentUser = principal.getName();
+        var status = service.deletePlaceService(id, currentUser);
         return new ResponseEntity<>(status);
     }
-
 }
