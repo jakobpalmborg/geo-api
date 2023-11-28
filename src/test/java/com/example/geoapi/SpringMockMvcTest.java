@@ -1,7 +1,7 @@
 package com.example.geoapi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import org.geolatte.geom.G2D;
 import org.geolatte.geom.Point;
 import org.geolatte.geom.codec.Wkt;
@@ -12,10 +12,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 import static org.mockito.Mockito.when;
@@ -26,7 +25,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.security.Principal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +57,7 @@ public class SpringMockMvcTest {
     void shouldReturnOkAndJsonWithRightContent() throws Exception {
 
         List<CategoryDto> expected = new ArrayList<>();
-        expected.add(new CategoryDto(1,"testName", "U+1F686", "test description"));
+        expected.add(new CategoryDto(1, "testName", "U+1F686", "test description"));
 
         when(service.getAllCategoriesService()).thenReturn(expected);
 
@@ -79,8 +77,8 @@ public class SpringMockMvcTest {
         when(service.createCategoryService(cat)).thenReturn(HttpStatus.CREATED);
 
         mockMvc.perform(post("/api/categories")
-                .contentType("application/json")
-                .content(mapper.writeValueAsString(cat)))
+                        .contentType("application/json")
+                        .content(mapper.writeValueAsString(cat)))
                 .andExpect(status().isCreated());
     }
 
@@ -100,12 +98,12 @@ public class SpringMockMvcTest {
     @Test
     @WithMockUser()
     void shouldReturnOkAndListOfPlaces() throws Exception {
-        var lat =  59.85831150991498;
+        var lat = 59.85831150991498;
         var lon = 17.646541697679048;
         String text = "POINT (" + lon + " " + lat + ")";
         Point<G2D> geo = (Point<G2D>) Wkt.fromWkt(text, WGS84);
         List<PlaceDto> expected = new ArrayList<>();
-        expected.add(new PlaceDto(1,"testName", new Category(),  new User(),  false, Instant.now(), "Description", geo, Instant.now()));
+        expected.add(new PlaceDto(1, "testName", new Category(), new User(), false, Instant.now(), "Description", geo, Instant.now()));
 
         when(service.getAllPlacesService(0, 0, 0)).thenReturn(expected);
 
@@ -129,12 +127,12 @@ public class SpringMockMvcTest {
     @Test
     @WithMockUser()
     void shouldReturnOKAndJson() throws Exception {
-        var lat =  59.85831150991498;
+        var lat = 59.85831150991498;
         var lon = 17.646541697679048;
         String text = "POINT (" + lon + " " + lat + ")";
         Point<G2D> geo = (Point<G2D>) Wkt.fromWkt(text, WGS84);
         List<PlaceDto> expected = new ArrayList<>();
-        expected.add(new PlaceDto(1,"testName", new Category(),  new User(),  false, Instant.now(), "Description", geo, Instant.now()));
+        expected.add(new PlaceDto(1, "testName", new Category(), new User(), false, Instant.now(), "Description", geo, Instant.now()));
         when(service.getAllPlacesInOneCategoryService(100)).thenReturn(expected);
 
         mockMvc.perform(get("/api/categories/100/places"))
@@ -159,7 +157,7 @@ public class SpringMockMvcTest {
     @Test
     @WithMockUser(username = "userName")
     void shouldReturn201CreatedIfUserLoggedInForPost() throws Exception {
-        PlaceRequestBody body = new PlaceRequestBody("hello",1, 1,true,"description",59.85831150991498,17.646541697679048);
+        PlaceRequestBody body = new PlaceRequestBody("hello", 1, 1, true, "description", 59.85831150991498, 17.646541697679048);
         when(service.createPlaceService(body, "userName")).thenReturn(HttpStatus.CREATED);
 
         mockMvc.perform(post("/api/places")
@@ -172,7 +170,8 @@ public class SpringMockMvcTest {
     @WithMockUser(username = "userName")
     void shouldReturn201CreatedAndResponseMessageForPutWithLoggedInUser() throws Exception {
         var id = 1;
-        PlaceRequestBody body = new PlaceRequestBody("hello",1, 1,true,"description",59.85831150991498,17.646541697679048);
+        PlaceRequestBody body = new PlaceRequestBody("hello", 1, 1, true, "description", 59.85831150991498, 17.646541697679048);
+
         when(service.replaceOnePlaceService(id, body, "userName")).thenReturn(String.valueOf(Optional.of("The place with id: " + id + " has been replaced with a new place")));
 
         mockMvc.perform(put("/api/places/1")
@@ -186,7 +185,8 @@ public class SpringMockMvcTest {
     @WithMockUser(username = "userName")
     void shouldReturn201CreatedAndResponseMessageForPatchWithLoggedInUser() throws Exception {
         var id = 1;
-        PlaceRequestBody body = new PlaceRequestBody("hello",1, 1,true,"description",59.85831150991498,17.646541697679048);
+        PlaceRequestBody body = new PlaceRequestBody("hello", 1, 1, true, "description", 59.85831150991498, 17.646541697679048);
+
         when(service.updateOnePlaceService(id, body, "userName")).thenReturn(String.valueOf(Optional.of("The place with id: " + id + " has been updated")));
 
         mockMvc.perform(patch("/api/places/1")
@@ -200,9 +200,11 @@ public class SpringMockMvcTest {
     @WithMockUser(username = "userName")
     void shouldReturnNotFoundForDeleteWithLoggedInUser() throws Exception {
         var id = 1;
+
         when(service.deletePlaceService(id, "userName")).thenReturn(HttpStatus.NOT_FOUND);
+        
         mockMvc.perform((delete("/api/places/1")))
                 .andExpect(status().isNotFound());
     }
-    
+
 }
