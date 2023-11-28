@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 import static org.mockito.Mockito.when;
@@ -22,6 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.security.Principal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,5 +113,56 @@ public class SpringMockMvcTest {
                 .andExpect(jsonPath("$[0].isPrivate").value(false))
                 .andExpect(jsonPath("$[0].description").value("Description"));
     }
-    
+
+    @Test
+    @WithMockUser()
+    void shouldReturn404NotFound2() throws Exception {
+        when(service.getOnePlaceService(100)).thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/api/places/100"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser()
+    void shouldReturnOKAndJson() throws Exception {
+        var lat =  59.85831150991498;
+        var lon = 17.646541697679048;
+        String text = "POINT (" + lon + " " + lat + ")";
+        Point<G2D> geo = (Point<G2D>) Wkt.fromWkt(text, WGS84);
+        List<PlaceDto> expected = new ArrayList<>();
+        expected.add(new PlaceDto(1,"testName", new Category(),  new User(),  false, Instant.now(), "Description", geo, Instant.now()));
+        when(service.getAllPlacesInOneCategoryService(100)).thenReturn(expected);
+
+        mockMvc.perform(get("/api/categories/100/places"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.[0].name").value("testName"))
+                .andExpect(jsonPath("$[0].isPrivate").value(false))
+                .andExpect(jsonPath("$[0].description").value("Description"));
+    }
+
+
+    @Test
+    @WithMockUser()
+    void anonymousUserShouldReturnNotAllowed() throws Exception {
+        List<PlaceDto> list = new ArrayList<>();
+        when(service.getAllPlacesForOneUserService()).thenReturn(list);
+
+        mockMvc.perform(post("/api/users/places"))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    @WithMockUser(username = "userName")
+    void shouldReturn201CreatedIfUserLoggedInForPost() throws Exception {
+        PlaceRequestBody body = new PlaceRequestBody("hello",1, 1,true,"description",59.85831150991498,17.646541697679048);
+        when(service.createPlaceService(body, "userName")).thenReturn(HttpStatus.CREATED);
+
+        mockMvc.perform(post("/api/places")
+                        .contentType("application/json")
+                        .content(mapper.writeValueAsString(body)))
+                .andExpect(status().isCreated());
+    }
+
 }
