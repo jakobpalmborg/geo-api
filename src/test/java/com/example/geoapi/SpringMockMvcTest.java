@@ -21,6 +21,9 @@ import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.security.Principal;
@@ -165,4 +168,41 @@ public class SpringMockMvcTest {
                 .andExpect(status().isCreated());
     }
 
+    @Test
+    @WithMockUser(username = "userName")
+    void shouldReturn201CreatedAndResponseMessageForPutWithLoggedInUser() throws Exception {
+        var id = 1;
+        PlaceRequestBody body = new PlaceRequestBody("hello",1, 1,true,"description",59.85831150991498,17.646541697679048);
+        when(service.replaceOnePlaceService(id, body, "userName")).thenReturn(String.valueOf(Optional.of("The place with id: " + id + " has been replaced with a new place")));
+
+        mockMvc.perform(put("/api/places/1")
+                        .contentType("application/json")
+                        .content(mapper.writeValueAsString(body)))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("Optional[The place with id: 1 has been replaced with a new place]"));
+    }
+
+    @Test
+    @WithMockUser(username = "userName")
+    void shouldReturn201CreatedAndResponseMessageForPatchWithLoggedInUser() throws Exception {
+        var id = 1;
+        PlaceRequestBody body = new PlaceRequestBody("hello",1, 1,true,"description",59.85831150991498,17.646541697679048);
+        when(service.updateOnePlaceService(id, body, "userName")).thenReturn(String.valueOf(Optional.of("The place with id: " + id + " has been updated")));
+
+        mockMvc.perform(patch("/api/places/1")
+                        .contentType("application/json")
+                        .content(mapper.writeValueAsString(body)))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("Optional[The place with id: 1 has been updated]"));
+    }
+
+    @Test
+    @WithMockUser(username = "userName")
+    void shouldReturnNotFoundForDeleteWithLoggedInUser() throws Exception {
+        var id = 1;
+        when(service.deletePlaceService(id, "userName")).thenReturn(HttpStatus.NOT_FOUND);
+        mockMvc.perform((delete("/api/places/1")))
+                .andExpect(status().isNotFound());
+    }
+    
 }
