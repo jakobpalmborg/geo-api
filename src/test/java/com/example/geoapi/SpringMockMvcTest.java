@@ -202,7 +202,7 @@ public class SpringMockMvcTest {
         var id = 1;
 
         when(service.deletePlaceService(id, "userName")).thenReturn(HttpStatus.NOT_FOUND);
-        
+
         mockMvc.perform((delete("/api/places/1")))
                 .andExpect(status().isNotFound());
     }
