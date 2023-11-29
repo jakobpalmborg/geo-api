@@ -13,8 +13,11 @@ public class Controller {
 
     private final GeoApiService service;
 
-    public Controller(GeoApiService service) {
+    private final GeoAddressService addressService;
+
+    public Controller(GeoApiService service, GeoAddressService addressService) {
         this.service = service;
+        this.addressService = addressService;
     }
 
     @GetMapping("/categories")
@@ -40,8 +43,8 @@ public class Controller {
 
     @GetMapping("/places")
     public ResponseEntity<List<PlaceDto>> getAllPlaces(@RequestParam(required = false,
-            defaultValue = "0") double lat,@RequestParam(required = false,
-            defaultValue = "0") double lng,  @RequestParam(required = false,
+            defaultValue = "0") double lat, @RequestParam(required = false,
+            defaultValue = "0") double lng, @RequestParam(required = false,
             defaultValue = "0") double distance) {
         var places = service.getAllPlacesService(lat, lng, distance);
         return new ResponseEntity<>(places, HttpStatus.OK);
@@ -78,7 +81,7 @@ public class Controller {
     }
 
     @PatchMapping("/places/{id}")
-    public ResponseEntity<String> updateOnePlace(@PathVariable int id,  @RequestBody PlaceRequestBody place, Principal principal) {
+    public ResponseEntity<String> updateOnePlace(@PathVariable int id, @RequestBody PlaceRequestBody place, Principal principal) {
         var currentUser = principal.getName();
         return new ResponseEntity<>(service.updateOnePlaceService(id, place, currentUser), HttpStatus.CREATED);
     }
@@ -88,5 +91,10 @@ public class Controller {
         var currentUser = principal.getName();
         var status = service.deletePlaceService(id, currentUser);
         return new ResponseEntity<>(status);
+    }
+
+    @GetMapping("/geo")
+    public ResponseEntity<PlaceFromGeocode> lookup(@RequestParam float lat, @RequestParam float lon) {
+        return new ResponseEntity<>(addressService.reverseGeoCode(lat, lon), HttpStatus.OK);
     }
 }
