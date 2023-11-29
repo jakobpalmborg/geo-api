@@ -9,7 +9,7 @@ import org.geolatte.geom.Point;
 import java.time.Instant;
 
 @Entity
-@Table(name = "place", schema = "geographically")
+@Table(name = "place")
 public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
